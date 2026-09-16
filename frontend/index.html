@@ -13,7 +13,7 @@
 
     <script>
         function checkBackend() {
-            fetch("http://23.20.172.5:5000/")
+            fetch("/api/")
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById("result").innerText = data;
