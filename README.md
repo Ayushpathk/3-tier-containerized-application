@@ -1,63 +1,83 @@
 # 3-Tier Containerized Application
 
-A 3-tier web application deployed using Docker Compose on AWS EC2 Ubuntu.
+A 3-tier web application deployed on AWS EC2 using Docker Compose, with Nginx frontend, Flask/Gunicorn backend, and MySQL database.
 
 ## Architecture
 
-Frontend (Nginx) -> Backend (Flask/Gunicorn) -> MySQL Database
+Browser
+   |
+   v
+Nginx (Frontend :8080)
+   |
+   v
+Flask + Gunicorn (Backend :5000)
+   |
+   v
+MySQL (Database)
 
-## Technologies
+## Technology Stack
 
 - Docker
 - Docker Compose
-- Python Flask
-- Gunicorn
-- MySQL 8.0
-- Nginx
 - Linux / Ubuntu
-- AWS EC2
-- Git & GitHub
+- Python / Flask
+- Gunicorn
+- MySQL
+
+## Services
+
+- Frontend: Nginx serving the web interface
+- Backend: Flask application running with Gunicorn
+- Database: MySQL 8.0
+- Networking: Docker bridge network
 
 ## Features
+- Containerized frontend, backend, and database
+- Nginx reverse proxy for backend API requests
+- MySQL persistent storage using Docker volumes
+- Docker healthcheck for MySQL
 
-- 3-tier containerized architecture
-- Custom Docker bridge network
-- Persistent MySQL storage using Docker volume
-- Environment-based database configuration
-- MySQL healthcheck
-- Backend health endpoint
-- REST API for retrieving users
-- Gunicorn production WSGI server
+
+## Application Flow
+
+1. User accesses the application through the EC2 public IP.
+2. Nginx serves the frontend application.
+3. Nginx forwards /api/ requests to the Flask backend.
+4. Flask connects to MySQL through the Docker network.
+5. MySQL returns data to the backend.
+6. The backend response is displayed in the browser.
 
 ## API Endpoints
 
-- GET /health - Backend health check
-- GET /users - Retrieve users from MySQL
+- GET /api/ → Backend status
+- GET /api/users → Retrieve users from MySQL
 
-## Run
+## Environment Configuration
 
-Create a .env file with the required database variables, then run: docker compose up -d --build
+The application uses environment variables for database configuration.
+Create a `.env` file in the project root directory.
+Store database credentials in `.env` and keep the file excluded from Git using `.gitignore`.
 
-## Security
+## Run the Application
 
-Database credentials are stored in .env, which is excluded from Git. MySQL port 3306 is not exposed publicly.
+Clone the repository and move into the project directory.
+Create the `.env` file with the required database environment variables.
+Build and start all services using Docker Compose.
+
+docker compose up --build -d
+
+Check running containers with `docker compose ps`.
+
+## Project Structure
+
+- `frontend/` - Nginx frontend application
+- `backend/` - Flask/Gunicorn backend application
+- `database/` - MySQL initialization files
+- `docker-compose.yml` - Multi-container orchestration
+- `README.md` - Project documentation
 
 ## Git Workflow
 
-This project follows a feature-branch workflow.
-
-1. Create a feature branch from `main`.
-2. Implement and test the change.
-3. Push the feature branch to GitHub.
-4. Open a Pull Request for review.
-5. Merge the approved changes into `main`.
-6. Create a release tag for stable versions.
-
-Example:
-
-```bash
-git checkout -b feature/new-change
-git add .
-git commit -m "feat: add new change"
-git push -u origin feature/new-change
-
+Development was managed using feature branches, pull requests, and merges into the main branch.
+The project includes separate feature branches for MySQL integration and Nginx reverse proxy implementation.
+Current release: `v1.0.0`
