@@ -41,3 +41,23 @@ Create a .env file with the required database variables, then run: docker compos
 ## Security
 
 Database credentials are stored in .env, which is excluded from Git. MySQL port 3306 is not exposed publicly.
+
+## Git Workflow
+
+This project follows a feature-branch workflow.
+
+1. Create a feature branch from `main`.
+2. Implement and test the change.
+3. Push the feature branch to GitHub.
+4. Open a Pull Request for review.
+5. Merge the approved changes into `main`.
+6. Create a release tag for stable versions.
+
+Example:
+
+```bash
+git checkout -b feature/new-change
+git add .
+git commit -m "feat: add new change"
+git push -u origin feature/new-change
+
